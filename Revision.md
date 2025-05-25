@@ -243,3 +243,49 @@ Gloss match → bank = river bank (not financial institution)
 | **Extended Lesk**        | Uses glosses of surrounding words for improved word sense disambiguation         |
 
 ---
+## 🔁 RNN & LSTM
+
+### Recurrent Neural Network (RNN)
+
+At time $t$:
+
+$$h_t = f(W_{hh} \cdot h_{t-1} + W_{xh} \cdot x_t + b)
+$$
+
+- Struggles with long-term dependencies due to **vanishing gradients**
+
+---
+
+### Long Short-Term Memory (LSTM)
+
+Handles long-term memory with gates:
+
+#### Gates:
+
+- Forget:  
+  $$f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) $$
+- Input:  
+  $$i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i) $$
+- Candidate Cell:
+$$
+\tilde{C}_t = \tanh(W_C \cdot [h_{t-1}, x_t] + b_C)
+$$
+- Update Cell:  
+  $$C_t = f_t \cdot C_{t-1} + i_t \cdot \tilde{C}_t $$
+- Output:  
+  $$o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)
+   $$
+- Final output:  
+  $$h_t = o_t \cdot \tanh(C_t) $$
+
+---
+
+### Comparison
+
+| Feature             | RNN        | LSTM                        |
+|---------------------|------------|-----------------------------|
+| Long-term memory    | ❌ Poor     | ✅ Excellent                |
+| Vanishing gradients | ❌ Common  | ✅ Mitigated                |
+| Speed               | ✅ Faster  | ❌ Slower (more params)     |
+| Use cases           | Short seqs | Long seqs (translation etc) |
+
