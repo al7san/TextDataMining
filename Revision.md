@@ -243,49 +243,24 @@ Gloss match → bank = river bank (not financial institution)
 | **Extended Lesk**        | Uses glosses of surrounding words for improved word sense disambiguation         |
 
 ---
-## 🔁 RNN & LSTM
+### **RNN vs. LSTM (Brief Overview)**  
 
-### Recurrent Neural Network (RNN)
+#### **RNN (Recurrent Neural Network)**  
+- Processes sequential data by passing hidden states between time steps.  
+- **Problem:** Suffers from **vanishing/exploding gradients**, struggles with long-term dependencies.  
 
-At time $t$:
+#### **LSTM (Long Short-Term Memory)**  
+- Improved RNN variant with **memory cells** and **gates** (forget, input, output).  
+- Solves vanishing gradients by maintaining a **cell state** for long-term memory.  
+- Better for long sequences (e.g., text, time-series data).  
 
-$$h_t = f(W_{hh} \cdot h_{t-1} + W_{xh} \cdot x_t + b)
-$$
+#### **Key Difference**  
+| Feature       | RNN                          | LSTM                          |  
+|--------------|----------------------------|-------------------------------|  
+| Memory       | Short-term                  | Long-term (cell state + gates)|  
+| Gradients    | Vanishes/explodes easily    | More stable                   |  
+| Complexity   | Simple                      | More parameters               |  
+| Performance  | Weak on long sequences      | Strong on long sequences      |  
 
-- Struggles with long-term dependencies due to **vanishing gradients**
-
----
-
-### Long Short-Term Memory (LSTM)
-
-Handles long-term memory with gates:
-
-#### Gates:
-
-- Forget:  
-  $$f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) $$
-- Input:  
-  $$i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i) $$
-- Candidate Cell:
-$$
-\tilde{C}_t = \tanh(W_C \cdot [h_{t-1}, x_t] + b_C)
-$$
-- Update Cell:  
-  $$C_t = f_t \cdot C_{t-1} + i_t \cdot \tilde{C}_t $$
-- Output:  
-  $$o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)
-   $$
-- Final output:  
-  $$h_t = o_t \cdot \tanh(C_t) $$
-
----
-
-### Comparison
-
-| Feature             | RNN        | LSTM                        |
-|---------------------|------------|-----------------------------|
-| Long-term memory    | ❌ Poor     | ✅ Excellent                |
-| Vanishing gradients | ❌ Common  | ✅ Mitigated                |
-| Speed               | ✅ Faster  | ❌ Slower (more params)     |
-| Use cases           | Short seqs | Long seqs (translation etc) |
-
+**Use Cases:** NLP, speech recognition, time-series forecasting.  
+**Trend:** LSTMs are better than RNNs but are now often replaced by **Transformers** (e.g., GPT, BERT).
